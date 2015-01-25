@@ -1,43 +1,78 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Cat MVC</title>
-  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-  <style>
+    <title>Simple JavaScript MVC Example</title>
+    <meta name="description" value="Simple JavaScript MVC Example" />
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <style>
     #cat {
-      width: 300px;
-      height: 300px;
-      border-radius: 150px;
-      background-image: url(https://assets-cdn.github.com/images/modules/logos_page/Octocat.png);
-      background-size: 250px 250px;
-      background-repeat: no-repeat;
-      background-position: center;
+        width: 300px;
+        height: 300px;
+        border-radius: 150px;
+        background-image: url(https://assets-cdn.github.com/images/modules/logos_page/Octocat.png);
+        background-size: 250px 250px;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .picture_frame {
-      margin: 10px auto;
-      padding: 10px;
-      border: 2px solid #333;
-      border-radius: 10px;
-      width: 300px;
-      text-align: center;
+        margin: 10px auto;
+        padding: 10px;
+        border: 2px solid #333;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
     }
-
     #message {
-      margin: 20px;
-      font-size: 2.0em;
+        margin: 20px;
+        font-size: 2.0em;
     }
-
-  </style>
+    html {
+        position: relative;
+        min-height: 100%;
+    }
+    body {
+        margin: 0 0 50px;
+        /* bottom = footer height */
+    }
+    header {
+        text-align: center;
+    }
+    footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 25px;
+        text-align: center;
+        font-size: 15px;
+        width: 100%;
+        background-color: #eee;
+        padding: 5px;
+    }
+    </style>
 </head>
 
 <body>
-  <div class="picture_frame">
-    <div id="cat"></div>
-  </div>
-  <div class="picture_frame">
-    <button class="pure-button" id="rotator">Clockwise</button>
-    <div id="message"></div>
-  </div>
+    <header>
+        <h1>Simple JavaScript MVC Example</h1>
+    </header>
+    <main role="main">
+        <article>
+            <section>
+                <div class="picture_frame">
+                    <div id="cat"></div>
+                </div>
+                <div class="picture_frame">
+                    <button class="pure-button" id="rotator">Clockwise</button>
+                    <div id="message"></div>
+                </div>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <a href="https://github.com/stujo/javascript-mvc-octocat">Project on GitHub</a>
+    </footer>
 </body>
 
 </html>
@@ -47,47 +82,47 @@
 //////////////////// M - Model ////////////////////////////////
 
 function CatModel(rotation) {
-  this.rotation = rotation;
+    this.rotation = rotation;
 }
 
 CatModel.prototype.turn = function() {
-  this.rotation = (this.rotation + 10) % 360;
+    this.rotation = (this.rotation + 10) % 360;
 }
 
 //////////////////// V - View ////////////////////////////////
 
 function CatView(catId, messageId, rotatorId) {
-  this.catId = catId;
-  this.rotatorId = rotatorId;
-  this.messageId = messageId;
+    this.catId = catId;
+    this.rotatorId = rotatorId;
+    this.messageId = messageId;
 }
 
 CatView.prototype.updateDisplay = function(model) {
-  var rotation = model.rotation;
-  document.getElementById(this.catId).style.transform = "rotate(" + rotation + "deg)";
-  document.getElementById(this.messageId).innerHTML = "Rotated " + rotation + " degrees";
+    var rotation = model.rotation;
+    document.getElementById(this.catId).style.transform = "rotate(" + rotation + "deg)";
+    document.getElementById(this.messageId).innerHTML = "Rotated " + rotation + " degrees";
 };
 
 //////////////////// C - Controller ////////////////////////////////
 
 function CatController(view, model) {
-  this.view = view;
-  this.model = model;
-  this.bindHandlers();
-  this.refresh();
+    this.view = view;
+    this.model = model;
+    this.bindHandlers();
+    this.refresh();
 }
 
 CatController.prototype.refresh = function() {
-  this.view.updateDisplay(this.model);
+    this.view.updateDisplay(this.model);
 };
 
 CatController.prototype.turnIt = function() {
-  this.model.turn();
-  this.refresh();
+    this.model.turn();
+    this.refresh();
 };
 
 CatController.prototype.bindHandlers = function() {
-  document.getElementById('rotator').addEventListener('click', this.turnIt.bind(this));
+    document.getElementById('rotator').addEventListener('click', this.turnIt.bind(this));
 };
 
 
@@ -96,5 +131,4 @@ CatController.prototype.bindHandlers = function() {
 var view = new CatView('cat', 'message', 'rotator');
 var catModel = new CatModel(0);
 var controller = new CatController(view, catModel);
-
 </script>
