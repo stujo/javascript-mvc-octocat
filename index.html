@@ -1,0 +1,100 @@
+<html>
+
+<head>
+  <title>Cat MVC</title>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+  <style>
+    #cat {
+      width: 300px;
+      height: 300px;
+      border-radius: 150px;
+      background-image: url(https://assets-cdn.github.com/images/modules/logos_page/Octocat.png);
+      background-size: 250px 250px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .picture_frame {
+      margin: 10px auto;
+      padding: 10px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+
+    #message {
+      margin: 20px;
+      font-size: 2.0em;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="picture_frame">
+    <div id="cat"></div>
+  </div>
+  <div class="picture_frame">
+    <button class="pure-button" id="rotator">Clockwise</button>
+    <div id="message"></div>
+  </div>
+</body>
+
+</html>
+<script type="text/javascript">
+//  "use strict";
+
+//////////////////// M - Model ////////////////////////////////
+
+function CatModel(rotation) {
+  this.rotation = rotation;
+}
+
+CatModel.prototype.turn = function() {
+  this.rotation = (this.rotation + 10) % 360;
+}
+
+//////////////////// V - View ////////////////////////////////
+
+function CatView(catId, messageId, rotatorId) {
+  this.catId = catId;
+  this.rotatorId = rotatorId;
+  this.messageId = messageId;
+}
+
+CatView.prototype.updateDisplay = function(model) {
+  var rotation = model.rotation;
+  document.getElementById(this.catId).style.transform = "rotate(" + rotation + "deg)";
+  document.getElementById(this.messageId).innerHTML = "Rotated " + rotation + " degrees";
+};
+
+//////////////////// C - Controller ////////////////////////////////
+
+function CatController(view, model) {
+  this.view = view;
+  this.model = model;
+  this.bindHandlers();
+  this.refresh();
+}
+
+CatController.prototype.refresh = function() {
+  this.view.updateDisplay(this.model);
+};
+
+CatController.prototype.turnIt = function() {
+  this.model.turn();
+  this.refresh();
+};
+
+CatController.prototype.bindHandlers = function() {
+  document.getElementById('rotator').addEventListener('click', this.turnIt.bind(this));
+};
+
+
+//////////////// The Application ////////////////////////////////
+
+var view = new CatView('cat', 'message', 'rotator');
+var catModel = new CatModel(0);
+var controller = new CatController(view, catModel);
+
+</script>
