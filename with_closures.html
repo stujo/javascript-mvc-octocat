@@ -55,7 +55,7 @@
 
 <body>
     <header>
-        <h1>Simple JavaScript MVC Example</h1>
+        <h1>JavaScript MVC Example using Closures</h1>
     </header>
     <main role="main">
         <article>
@@ -67,7 +67,7 @@
                 <div id="message"></div>
             </div>
             <div class="picture_frame">
-                <a href="index.html">Too Simple? - Version with Closures</a>
+                <a href="index.html">Too Confusing? - Version without Closures</a>
             </div>
         </article>
     </main>
@@ -78,58 +78,45 @@
 
 </html>
 <script type="text/javascript">
-//  "use strict";
+"use strict";
 
-//////////////////// M - Model ////////////////////////////////
+(function() {
 
-function CatModel(rotation) {
-    this.rotation = rotation;
-}
+    //////////////////// M - Model ////////////////////////////////
 
-CatModel.prototype.turn = function() {
-    this.rotation = (this.rotation + 10) % 360;
-}
+    function CatModel(rotation) {
+        this.turn = function() {
+            rotation = (rotation + 10) % 360;
+        };
+        this.getRotation = function() {
+            return rotation
+        };
+    }
 
-//////////////////// V - View ////////////////////////////////
+    //////////////////// V - View ////////////////////////////////
 
-function CatView(catId, messageId, rotatorId) {
-    this.catId = catId;
-    this.rotatorId = rotatorId;
-    this.messageId = messageId;
-}
+    function CatView(catId, messageId, rotatorId) {
+        this.updateDisplay = function(model) {
+            var rotation = model.getRotation();
+            document.getElementById(catId).style.transform = "rotate(" + rotation + "deg)";
+            document.getElementById(messageId).innerHTML = "Rotated " + rotation + " degrees";
+        };
+    }
 
-CatView.prototype.updateDisplay = function(model) {
-    var rotation = model.rotation;
-    document.getElementById(this.catId).style.transform = "rotate(" + rotation + "deg)";
-    document.getElementById(this.messageId).innerHTML = "Rotated " + rotation + " degrees";
-};
+    //////////////////// C - Controller ////////////////////////////////
 
-//////////////////// C - Controller ////////////////////////////////
+    function CatController(view, model) {
+        document.getElementById('rotator').addEventListener('click', function() {
+            model.turn();
+            view.updateDisplay(model);
+        });
+        view.updateDisplay(model);
+    }
 
-function CatController(view, model) {
-    this.view = view;
-    this.model = model;
-    this.bindHandlers();
-    this.refresh();
-}
+    new CatController(
+        new CatView('cat', 'message', 'rotator'),
+        new CatModel(0)
+    );
 
-CatController.prototype.refresh = function() {
-    this.view.updateDisplay(this.model);
-};
-
-CatController.prototype.turnIt = function() {
-    this.model.turn();
-    this.refresh();
-};
-
-CatController.prototype.bindHandlers = function() {
-    document.getElementById('rotator').addEventListener('click', this.turnIt.bind(this));
-};
-
-
-//////////////// The Application ////////////////////////////////
-
-var view = new CatView('cat', 'message', 'rotator');
-var catModel = new CatModel(0);
-var controller = new CatController(view, catModel);
+})();
 </script>
