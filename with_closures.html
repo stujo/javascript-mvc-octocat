@@ -103,7 +103,7 @@
             var rotation = model.getRotation();
             document.getElementById(catId).style.transform = "rotate(" + rotation + "deg)";
             // IOS Support
-            document.getElementById(this.catId).style.webkitTransform = "rotate(" + rotation + "deg)";
+            document.getElementById(catId).style.webkitTransform = "rotate(" + rotation + "deg)";
             document.getElementById(messageId).innerHTML = "Rotated " + rotation + " degrees";
         };
     }
