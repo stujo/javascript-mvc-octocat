@@ -1,31 +1,42 @@
+var RotoCat = React.createClass({
 
-var RotoCatDiv = React.createClass({
-  getInitialState: function(){
-    return {rotation: 0}
+  stateHelper: function() {
+    return {rotation: this.props.catModel.getRotation()}
   },
-  updateModel: function(model){
-    this.setState({rotation: model.getRotation()});
+  getInitialState: function(){
+    return this.stateHelper();
+  },    
+  rotate: function(){
+    this.props.catModel.turn();
+    this.setState({rotation: this.stateHelper()})
   },
   render: function() {
+    return (<div>
+              <div className="picture_frame" id="cat_container">
+                <RotoCatDiv rotation={this.state.rotation} />
+              </div>
+              <div className="picture_frame" id="message_container">
+                <RotoCatStatus rotation={this.state.rotation} rotate={this.rotate} />
+              </div>
+            </div>);
+  }
+});
+
+var RotoCatDiv = React.createClass({
+  render: function() {
     var styleValue = {
-      transform: 'rotate(' + this.state.rotation + 'deg)',
-      webkitTransform: 'rotate(' + this.state.rotation + 'deg)'
+      transform: 'rotate(' + this.props.rotation + 'deg)',
+      webkitTransform: 'rotate(' + this.props.rotation + 'deg)'
     }; 
     return (<div className="cat" style={styleValue}></div>);
   }
 });
 
 var RotoCatStatus = React.createClass({
-  getInitialState: function(){
-    return {rotation: 0}
-  },
-  updateModel: function(model){
-    this.setState({rotation: model.getRotation()});
-  },
   render: function() {
     return (<div>
-      <button class="pure-button" onClick={this.props.rotate}>Clockwise</button>
-      <div className="message">Rotated {this.state.rotation} degrees</div>
+      <button className="pure-button" onClick={this.props.rotate}>Clockwise</button>
+      <div className="message">Rotated {this.props.rotation} degrees</div>
       </div>);
   }
 });

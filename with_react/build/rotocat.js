@@ -1,31 +1,42 @@
+var RotoCat = React.createClass({displayName: "RotoCat",
 
-var RotoCatDiv = React.createClass({displayName: "RotoCatDiv",
-  getInitialState: function(){
-    return {rotation: 0}
+  stateHelper: function() {
+    return {rotation: this.props.catModel.getRotation()}
   },
-  updateModel: function(model){
-    this.setState({rotation: model.getRotation()});
+  getInitialState: function(){
+    return this.stateHelper();
+  },    
+  rotate: function(){
+    this.props.catModel.turn();
+    this.setState(this.stateHelper());
   },
   render: function() {
+    return (React.createElement("div", null, 
+              React.createElement("div", {className: "picture_frame", id: "cat_container"}, 
+                React.createElement(RotoCatDiv, {rotation: this.state.rotation})
+              ), 
+              React.createElement("div", {className: "picture_frame", id: "message_container"}, 
+                React.createElement(RotoCatStatus, {rotation: this.state.rotation, rotate: this.rotate})
+              )
+            ));
+  }
+});
+
+var RotoCatDiv = React.createClass({displayName: "RotoCatDiv",
+  render: function() {
     var styleValue = {
-      transform: 'rotate(' + this.state.rotation + 'deg)',
-      webkitTransform: 'rotate(' + this.state.rotation + 'deg)'
+      transform: 'rotate(' + this.props.rotation + 'deg)',
+      webkitTransform: 'rotate(' + this.props.rotation + 'deg)'
     }; 
     return (React.createElement("div", {className: "cat", style: styleValue}));
   }
 });
 
 var RotoCatStatus = React.createClass({displayName: "RotoCatStatus",
-  getInitialState: function(){
-    return {rotation: 0}
-  },
-  updateModel: function(model){
-    this.setState({rotation: model.getRotation()});
-  },
   render: function() {
     return (React.createElement("div", null, 
-      React.createElement("button", {class: "pure-button", onClick: this.props.rotate}, "Clockwise"), 
-      React.createElement("div", {className: "message"}, "Rotated ", this.state.rotation, " degrees")
+      React.createElement("button", {className: "pure-button", onClick: this.props.rotate}, "Clockwise"), 
+      React.createElement("div", {className: "message"}, "Rotated ", this.props.rotation, " degrees")
       ));
   }
 });
