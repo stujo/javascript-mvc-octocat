@@ -67,9 +67,9 @@
             <div class="picture_frame" id="cat_container">
 
             </div>
-            <div class="picture_frame">
+            <div class="picture_frame" id="message_container">
                 <button class="pure-button" id="rotator">Clockwise</button>
-                <div id="message_container"></div>
+                
             </div>
             <div class="picture_frame">
                 <a href="../with_closures.html">Too Complex? - Version with Closures</a>
@@ -101,22 +101,25 @@ function CatModel(rotation) {
 <script type="text/javascript">
 "use strict";
 
-var rotator = document.getElementById('rotator');
+function app(catModel, catContainerId, messageContainerId){
+    var catContainer = document.getElementById(catContainerId);
+    var messageContainer = document.getElementById(messageContainerId);
+    
+    var rotoCatDiv = React.render(React.createElement(RotoCatDiv), catContainer);
+    var rotoCatStatus = React.render(React.createElement(RotoCatStatus, {
+        rotate: function(){
+            catRotator();
+        }
+    }), messageContainer);
 
-var catContainer = document.getElementById('cat_container');
+    function catRotator(){
+        catModel.turn();
+        rotoCatDiv.updateModel(catModel);
+        rotoCatStatus.updateModel(catModel);
+    }
+}
 
-var catModel = new CatModel(42);
+app(new CatModel(42), 'cat_container','message_container');
 
-var rotoCatDiv = React.render(React.createElement(RotoCatDiv), catContainer);
-
-var messageContainer = document.getElementById('message_container');
-
-var rotoCatStatus = React.render(React.createElement(RotoCatStatus), messageContainer);
-
-rotator.addEventListener('click', function(event){
-    catModel.turn();
-    rotoCatDiv.updateModel(catModel);
-    rotoCatStatus.updateModel(catModel);
-});
 
 </script>

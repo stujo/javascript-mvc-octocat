@@ -1,3 +1,4 @@
+
 var RotoCatDiv = React.createClass({displayName: "RotoCatDiv",
   getInitialState: function(){
     return {rotation: 0}
@@ -22,6 +23,9 @@ var RotoCatStatus = React.createClass({displayName: "RotoCatStatus",
     this.setState({rotation: model.getRotation()});
   },
   render: function() {
-    return (React.createElement("div", {className: "message"}, "Rotated ", this.state.rotation, " degrees"));
+    return (React.createElement("div", null, 
+      React.createElement("button", {class: "pure-button", onClick: this.props.rotate}, "Clockwise"), 
+      React.createElement("div", {className: "message"}, "Rotated ", this.state.rotation, " degrees")
+      ));
   }
 });
