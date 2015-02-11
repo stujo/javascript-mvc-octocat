@@ -101,10 +101,10 @@ function CatModel(rotation) {
 <script type="text/javascript">
 "use strict";
 
-function app(catModel, catContainerId, messageContainerId){
+(function (catModel, catContainerId, messageContainerId){
     var catContainer = document.getElementById(catContainerId);
     var messageContainer = document.getElementById(messageContainerId);
-    
+
     var rotoCatDiv = React.render(React.createElement(RotoCatDiv), catContainer);
     var rotoCatStatus = React.render(React.createElement(RotoCatStatus, {
         rotate: function(){
@@ -117,9 +117,7 @@ function app(catModel, catContainerId, messageContainerId){
         rotoCatDiv.updateModel(catModel);
         rotoCatStatus.updateModel(catModel);
     }
-}
-
-app(new CatModel(42), 'cat_container','message_container');
+})(new CatModel(42), 'cat_container','message_container');
 
 
 </script>
