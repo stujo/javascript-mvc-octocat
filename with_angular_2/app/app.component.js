@@ -18,6 +18,7 @@
       '      <h3>Other Versions</h3>' +
       '      <ul>' +
       '        <li><a href="../with_react/index.html">React</a></li>' +
+      '        <li><a href="../with_vue/index.html">Vue.js</a></li>' +
       '        <li><a href="../with_closures.html">Closures</a></li>' +
       '        <li><a href="../index.html">Object Prototypes</a></li>' +
       '      </ul>' +
