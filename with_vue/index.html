@@ -61,61 +61,58 @@
     }
     </style>
 </head>
-
 <body>
     <header>
         <h1>Vue Example</h1>
     </header>
     <main role="main">
-        <article id="catApp">
-          <div class="picture_frame">
-              <div
-                class="cat"
-                v-bind:style="{ transform: rotationLiteral,  webkitTransform : rotationLiteral }"
-              >
-              </div>
+      <article id="catApp">
+        <div class="picture_frame">
+          <div
+            class="cat"
+            v-bind:style="{ transform: rotationLiteral,  webkitTransform : rotationLiteral }"
+          >
           </div>
-          <div class="picture_frame">
-              <button class="pure-button" v-on:click="rotate">Clockwise</button>
-
-              <div class="message">{{'Rotated ' + rotation + ' degrees'}}</div>
-          </div>
-            <div class="picture_frame">
-              <h3>Other Versions</h3>
-              <ul>
-                <li><a href="../with_react/index.html">React</a></li>
-                <li><a href="../with_closures.html">Closures</a></li>
-                <li><a href="../index.html">Object Prototypes</a></li>
-              </ul>
-            </div>
-        </article>
+        </div>
+        <div class="picture_frame">
+          <button class="pure-button" v-on:click="rotate">Clockwise</button>
+          <div class="message">{{'Rotated ' + rotation + ' degrees'}}</div>
+        </div>
+        <div class="picture_frame">
+          <h3>Other Versions</h3>
+          <ul>
+            <li><a href="../with_react/index.html">React</a></li>
+            <li><a href="../with_angular_2/index.html">Angular 2</a></li>
+            <li><a href="../with_closures.html">Closures</a></li>
+            <li><a href="../index.html">Object Prototypes</a></li>
+          </ul>
+        </div>
+      </article>
     </main>
     <footer>
         <a href="https://github.com/stujo/javascript-mvc-octocat">Project on GitHub</a>
     </footer>
+    <script src="./vue.2.1.10.js"></script>
+    <script type="text/javascript">
+    "use strict";
+
+    var app = new Vue({
+      el: '#catApp',
+      name: 'CatApp',
+      data: {
+        rotation : 10
+      },
+      computed: {
+        rotationLiteral : function(){
+          return 'rotate(' + this.rotation + 'deg)'
+        }
+      },
+      methods: {
+        rotate: function () {
+          this.rotation = (this.rotation + 10) % 360;
+        }
+      }
+    })
+    </script>
 </body>
-
 </html>
-<script src="./vue.2.1.10.js"></script>
-<script type="text/javascript">
-"use strict";
-
-var app = new Vue({
-  el: '#catApp',
-  name: 'CatApp',
-  data: {
-    rotation : 10
-  },
-  computed: {
-    rotationLiteral : function(){
-      return 'rotate(' + this.rotation + 'deg)'
-    }
-  },
-  methods: {
-    rotate: function () {
-      this.rotation = (this.rotation + 10) % 360;
-    }
-  }
-})
-
-</script>

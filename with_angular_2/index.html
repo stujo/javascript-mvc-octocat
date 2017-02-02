@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>React JavaScript MVC Example - stujo</title>
-    <meta name="description" value="React JavaScript MVC Example - stujo" />
+    <title>Angular2 Example - stujo</title>
+    <meta name="description" value="Angular2 Example - stujo" />
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,55 +60,37 @@
         padding: 5px;
     }
     </style>
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfill -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/@angular/core/bundles/core.umd.js"></script>
+    <script src="node_modules/@angular/common/bundles/common.umd.js"></script>
+    <script src="node_modules/@angular/compiler/bundles/compiler.umd.js"></script>
+    <script src="node_modules/@angular/platform-browser/bundles/platform-browser.umd.js"></script>
+    <script src="node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"></script>
+
+    <!-- 2. Load our 'modules' -->
+    <script src='app/app.component.js'></script>
+    <script src='app/app.module.js'></script>
+    <script src='app/main.js'></script>
 </head>
 
 <body>
     <header>
-        <h1>React JavaScript MVC Example</h1>
+        <h1>Angular2 Example</h1>
     </header>
     <main role="main">
-        <article>
-            <div id="roto_cat"></div>
-            <div class="picture_frame">
-              <h3>Other Versions</h3>
-              <ul>
-                <li><a href="../with_vue/index.html">Vue.js</a></li>
-                <li><a href="../with_angular_2/index.html">Angular 2</a></li>
-                <li><a href="../with_closures.html">Closures</a></li>
-                <li><a href="../index.html">Object Prototypes</a></li>
-              </ul>
-            </div>
+        <article id="catApp">
+          <cat-app>Loading...</cat-app>
         </article>
     </main>
     <footer>
         <a href="https://github.com/stujo/javascript-mvc-octocat">Project on GitHub</a>
     </footer>
 </body>
-
 </html>
-<script src="tools/react.js"></script>
-<script type="text/javascript">
-"use strict";
-//////////////////// M - Model ////////////////////////////////
-
-function CatModel(rotation) {
-    this.turn = function() {
-        rotation = (rotation + 10) % 360;
-    };
-    this.getRotation = function() {
-        return rotation;
-    };
-}
-</script>
-<script src="build/rotocat.js"></script>
-
-<script type="text/javascript">
-"use strict";
-
-(function (catModel, rotocatContainerId){
-    var rotocatContainer = document.getElementById(rotocatContainerId);
-    var rotoCat = React.render(React.createElement(RotoCat, {catModel: catModel}), rotocatContainer);
-})(new CatModel(42), 'roto_cat');
-
-
-</script>
